@@ -8,26 +8,22 @@ static const char normfgcolor[]     = "#000000";
 static const char selbordercolor[]  = "#999999";
 static const char selbgcolor[]      = "#666666";
 static const char selfgcolor[]      = "#ffffff";
-static uint borderpx                = 1;        /* border pixel of windows */
-static uint snap                    = 32;       /* snap pixel */
+static unsigned int borderpx        = 1;        /* border pixel of windows */
+static unsigned int snap            = 32;       /* snap pixel */
 static Bool showbar                 = False;     /* False means no bar */
 static Bool topbar                  = True;     /* False means bottom bar */
-
-#ifdef XINERAMA
-static uint xidx                    = 0;        /* Xinerama screen index to use */
-#endif
 
 /* tagging */
 static const char tags[][MAXTAGLEN] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static Rule rules[] = {
-	/* class      instance  title  tags mask  isfloating */
-	{ "Gimp",     NULL,     NULL,  0,         True },
-	{ "Firefox",  NULL,     NULL,  1 << 8,    True },
-	{ "MPlayer",  NULL,     NULL,  1,         True },
-	{ "aterm",    NULL,     NULL,  1,         False },
-	{ "opera",    NULL,     NULL,  1 << 3,    False },
-};
+	/* class      instance    title       tags mask     isfloating */
+	{ "Gimp",     NULL,       NULL,       0,            True },
+	{ "Firefox",  NULL,       NULL,       1 << 8,       True },
+	{ "MPlayer",  NULL,       NULL,       1,            True },
+	{ "aterm",    NULL,       NULL,       1,            False },
+	{ "opera",    NULL,       NULL,       1 << 3,       False },
+} ;
 
 /* layout(s) */
 static float mfact      = 0.55;
@@ -35,8 +31,9 @@ static Bool resizehints = False; /* False means respect size hints in tiled resi
 
 static Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "o_O",      NULL }, /* no layout function means floating behavior */
-	{ "^_^",      tile }, /* first entry is default */
+	{ "^_^",      NULL },    /* no layout function means floating behavior */
+	{ "o_O",      tile },    /* first entry is default */
+	{ "*_*",      monocle },
 };
 
 /* key definitions */
@@ -55,60 +52,51 @@ static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, 
 static const char *termcmd[]  = { "aterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-pr", "#999900", "-tr", "-fade", "80", "-tint", "#666666", "-tinttype", "true", "-si", "-vb", "-trsb", "+sb", "-sr", "-geometry", "182x72+0+0", "-sl", "9999", "-tn", "xterm", "-C" , NULL };
 
 static Key keys[] = {
-	/* modifier          key        function        argument */
-	{ MODKEY,            XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,            XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,            XK_b,      togglebar,      {0} },
-	{ MODKEY,            XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,            XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,            XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY,            XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,            XK_m,      togglemax,      {0} },
-	{ MODKEY|ShiftMask,  XK_Return, zoom,           {0} },
-	{ MODKEY,            XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,  XK_c,      killclient,     {0} },
-	{ MODKEY,            XK_space,  togglelayout,   {0} },
-	{ MODKEY|ShiftMask,  XK_space,  togglefloating, {0} },
-	{ MODKEY,            XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,  XK_0,      tag,            {.ui = ~0 } },
-	TAGKEYS(             XK_1,                      0)
-	TAGKEYS(             XK_2,                      1)
-	TAGKEYS(             XK_3,                      2)
-	TAGKEYS(             XK_4,                      3)
-	TAGKEYS(             XK_5,                      4)
-	TAGKEYS(             XK_6,                      5)
-	TAGKEYS(             XK_7,                      6)
-	TAGKEYS(             XK_8,                      7)
-	TAGKEYS(             XK_9,                      8)
-	{ MODKEY,            XK_q,      quit,           {0} },
+	/* modifier                     key        function        argument */
+	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_b,      togglebar,      {0} },
+	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
+	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
+	{ MODKEY,                       XK_Tab,    view,           {0} },
+	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_space,  setlayout,      {0} },
+	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
+	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+	TAGKEYS(                        XK_1,                      0)
+	TAGKEYS(                        XK_2,                      1)
+	TAGKEYS(                        XK_3,                      2)
+	TAGKEYS(                        XK_4,                      3)
+	TAGKEYS(                        XK_5,                      4)
+	TAGKEYS(                        XK_6,                      5)
+	TAGKEYS(                        XK_7,                      6)
+	TAGKEYS(                        XK_8,                      7)
+	TAGKEYS(                        XK_9,                      8)
+	{ MODKEY,                       XK_q,      quit,           {0} },
 };
 
 /* button definitions */
-#define TAGBUTTONS(TAG) \
-	{ TAG,                  0,              Button1,        view,           {.ui = 1 << TAG} }, \
-	{ TAG,                  0,              Button3,        toggleview,     {.ui = 1 << TAG} }, \
-	{ TAG,                  MODKEY,         Button1,        tag,            {.ui = 1 << TAG} }, \
-	{ TAG,                  MODKEY,         Button3,        toggletag,      {.ui = 1 << TAG} },
-
 /* click can be a tag number (starting at 0),
  * ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
-	{ ClkLtSymbol,          0,              Button1,        togglelayout,   {0} },
-	{ ClkLtSymbol,          0,              Button3,        togglemax,      {0} },
+	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
+	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
-	TAGBUTTONS(0)
-	TAGBUTTONS(1)
-	TAGBUTTONS(2)
-	TAGBUTTONS(3)
-	TAGBUTTONS(4)
-	TAGBUTTONS(5)
-	TAGBUTTONS(6)
-	TAGBUTTONS(7)
-	TAGBUTTONS(8)
+	{ ClkTagBar,            0,              Button1,        view,           {0} },
+	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
+	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
+	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
 
