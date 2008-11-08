@@ -19,10 +19,11 @@ static const char tags[][MAXTAGLEN] = { "1", "2", "3", "4", "5", "6", "7", "8", 
 static Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating */
 	{ "Gimp",     NULL,       NULL,       0,            True },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       True },
+	{ "opera",    NULL,       NULL,       1,            False },
+	{ "Firefox",  NULL,       NULL,       1,            False },
 	{ "MPlayer",  NULL,       NULL,       1,            True },
 	{ "aterm",    NULL,       NULL,       1,            False },
-	{ "opera",    NULL,       NULL,       1 << 3,       False },
+	{ "squeak",   NULL,       NULL,       0,            False },
 } ;
 
 /* layout(s) */
@@ -50,11 +51,13 @@ static Layout layouts[] = {
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "aterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-pr", "#999900", "-tr", "-fade", "80", "-tint", "#666666", "-tinttype", "true", "-si", "-vb", "-trsb", "+sb", "-sr", "-geometry", "182x72+0+0", "-sl", "9999", "-tn", "xterm", "-C" , NULL };
+static const char *xtrlock[]  = { "xtrlock", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_x,      spawn,          {.v = xtrlock } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
