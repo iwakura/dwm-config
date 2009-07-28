@@ -1,44 +1,40 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const char font[]            = "-*-terminus-medium-r-normal-*-14-*-*-*-*-*-*-*";
+static const char font[]            = "-*-*-medium-*-*-*-14-*-*-*-*-*-*-*";
 static const char normbordercolor[] = "#999999";
 static const char normbgcolor[]     = "#999999";
 static const char normfgcolor[]     = "#000000";
 static const char selbordercolor[]  = "#999999";
 static const char selbgcolor[]      = "#666666";
 static const char selfgcolor[]      = "#ffffff";
-static unsigned int borderpx        = 1;        /* border pixel of windows */
-static unsigned int snap            = 32;       /* snap pixel */
-static Bool showbar                 = False;    /* False means no bar */
-static Bool topbar                  = True;     /* False means bottom bar */
-static Bool readin                  = True;     /* False means do not read stdin */
-static Bool usegrab                 = False;    /* True means grabbing the X server
-                                                   during mouse-based resizals */
+static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int snap      = 32;       /* snap pixel */
+static const Bool showbar           = False;    /* False means no bar */
+static const Bool topbar            = True;     /* False means bottom bar */
 
 /* tagging */
-static const char tags[][MAXTAGLEN] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static unsigned int tagset[] = {1, 1}; /* after start, first tag is selected */
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
-static Rule rules[] = {
-	/* class      instance    title       tags mask     isfloating */
-	{ "Gimp",     NULL,       NULL,       0,            True },
- 	{ "Firefox",  NULL,       NULL,       1,            False },
- 	{ "opera",    NULL,       NULL,       1,            False },
- 	{ "MPlayer",  NULL,       NULL,       1,            True },
- 	{ "aterm",    NULL,       NULL,       1,            False },
- 	{ "squeak",   NULL,       NULL,       0,            False },
+static const Rule rules[] = {
+	/* class      instance    title       tags mask     isfloating   monitor */
+	{ "Gimp",     NULL,       NULL,       0,            True,        -1 },
+	{ "Firefox",  NULL,       NULL,       1 << 8,       False,       -1 },
+ 	{ "opera",    NULL,       NULL,       1,            False,       -1 },
+ 	{ "MPlayer",  NULL,       NULL,       1,            True,        -1 },
+ 	{ "aterm",    NULL,       NULL,       1,            False,       -1 },
+ 	{ "squeak",   NULL,       NULL,       0,            False,       -1 },
 };
 
 /* layout(s) */
-static float mfact      = 0.55; /* factor of master area size [0.05..0.95] */
-static Bool resizehints = False; /* False means respect size hints in tiled resizals */
+static const float mfact      = 0.55; /* factor of master area size [0.05..0.95] */
+static const Bool resizehints = False; /* False means respect size hints in tiled resizals */
 
-static Layout layouts[] = {
+static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "^_^",      NULL },    /* no layout function means floating behavior */
 	{ "o_O",      tile },    /* first entry is default */
-	{ "-_-",      monocle },
+	{ "-.-",      monocle },
 };
 
 /* key definitions */
@@ -54,14 +50,13 @@ static Layout layouts[] = {
 
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]  = { "aterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-pr", "#999900", "-tr", "-fade", "80", "-tint", "#666666", "-tinttype", "true", "-si", "-vb", "-trsb", "+sb", "-sr", "-geometry", "182x72+0+0", "-sl", "9999", "-tn", "xterm", "-C" , NULL };
+static const char *termcmd[]  = { "aterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-pr", "#999900", "-tr", "-fade", "80", "-tint", "#666666", "-tinttype", "true", "-si", "-vb", "-trsb", "+sb", "-sr", "-geometry", "182x72+0+0", "-sl", "0", "-tn", "xterm", "-C" , NULL };
 static const char *xtrlock[]  = { "xtrlock", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
- 	{ MODKEY,                       XK_x,      spawn,          {.v = xtrlock } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -70,13 +65,17 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
