@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const char font[]            = "-*-*-medium-*-*-*-14-*-*-*-*-*-*-*";
+static const char font[]            = "-*-*-medium-r-normal-*-14-*-*-*-*-*-*-*";
 static const char normbordercolor[] = "#999999";
 static const char normbgcolor[]     = "#999999";
 static const char normfgcolor[]     = "#000000";
@@ -51,11 +51,20 @@ static const Layout layouts[] = {
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "aterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-pr", "#999900", "-tr", "-tint", "#666666", "-tinttype", "true", "-si", "-vb", "-trsb", "+sb", "-sr", "-geometry", "182x72+0+0", "-sl", "0", "-tn", "xterm", "-C" , NULL };
-static const char *xtrlock[]  = { "xtrlock", NULL };
+static const char *screencmd[]  = { "aterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-pr", "#999900", "+tr", "-tint", "#666666", "-tinttype", "true", "-si", "-vb", "+trsb", "+sb", "-sr", "-geometry", "182x73-0-0", "-sl", "0", "-tn", "xterm", "-C" , "-e", "screen", NULL };
+static const char *browsercmd[]  = { "opera", NULL };
+static const char *xtrlockcmd[]  = { "xtrlock", NULL };
+static const char *viewercmd[]  = { "evince", NULL };
+static const char *screenshotcmd[]  = { "shot", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ MODKEY,                       XK_e,      spawn,          {.v = viewercmd } },
+	{ MODKEY,                       XK_o,      spawn,          {.v = browsercmd } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_s,      spawn,          {.v = screenshotcmd } },
+	{ MODKEY,                       XK_w,      spawn,          {.v = screencmd } },
+	{ MODKEY,                       XK_x,      spawn,          {.v = xtrlockcmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
