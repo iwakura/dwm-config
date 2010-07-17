@@ -5,10 +5,10 @@ static const char font[]            = "-*-*-medium-r-normal-*-14-*-*-*-*-*-*-*";
 static const char normbordercolor[] = "#999999";
 static const char normbgcolor[]     = "#999999";
 static const char normfgcolor[]     = "#000000";
-static const char selbordercolor[]  = "#999999";
-static const char selbgcolor[]      = "#666666";
+static const char selbordercolor[]  = "#333333";
+static const char selbgcolor[]      = "#333333";
 static const char selfgcolor[]      = "#ffffff";
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const Bool showbar           = False;    /* False means no bar */
 static const Bool topbar            = True;     /* False means bottom bar */
@@ -51,11 +51,14 @@ static const Layout layouts[] = {
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "aterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-pr", "#999900", "-tr", "-tint", "#666666", "-tinttype", "true", "-si", "-vb", "-trsb", "+sb", "-sr", "-geometry", "182x72+0+0", "-sl", "0", "-tn", "xterm", "-C" , NULL };
-static const char *screencmd[]  = { "aterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-pr", "#999900", "+tr", "-tint", "#666666", "-tinttype", "true", "-si", "-vb", "+trsb", "+sb", "-sr", "-geometry", "182x73-0-0", "-sl", "0", "-tn", "xterm", "-C" , "-e", "screen", NULL };
+static const char *screencmd[]  = { "aterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-pr", "#999900", "+tr", "-tint", "#666666", "-tinttype", "true", "-si", "-vb", "+trsb", "+sb", "-sr", "-geometry", "183x73-0-0", "-sl", "0", "-tn", "xterm", "-C" , "-e", "screen", NULL };
 static const char *browsercmd[]  = { "opera", NULL };
+static const char *utermscreencmd[]  = { "uxterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-si", "-vb", "+sb", "-geometry", "183x73-0-0", "-sl", "0", "-tn", "xterm", "-C", "-fn", "-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso10646-1", "-e", "screen -U", NULL };
 static const char *xtrlockcmd[]  = { "xtrlock", NULL };
 static const char *viewercmd[]  = { "evince", NULL };
 static const char *screenshotcmd[]  = { "shot", NULL };
+static const char *shutdowncmd[]  = { "sudo", "shutdown", "-p", "now", NULL };
+static const char *rebootcmd[]  = { "sudo", "shutdown", "-r", "now", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -66,6 +69,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_w,      spawn,          {.v = screencmd } },
 	{ MODKEY,                       XK_x,      spawn,          {.v = xtrlockcmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_r,      spawn,          {.v = utermscreencmd } },
+	{ MODKEY|ControlMask,           XK_f,      spawn,          {.v = shutdowncmd } },
+	{ MODKEY|ControlMask,           XK_r,      spawn,          {.v = rebootcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -94,7 +100,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY,                       XK_q,      quit,           {0} },
+	{ MODKEY|ControlMask,           XK_q,      quit,           {0} },
 };
 
 /* button definitions */
