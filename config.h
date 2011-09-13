@@ -8,6 +8,11 @@ static const char normfgcolor[]     = "#000000";
 static const char selbordercolor[]  = "#333333";
 static const char selbgcolor[]      = "#333333";
 static const char selfgcolor[]      = "#ffffff";
+/*
+  228x85-0-0 on 1600x1200
+  183x73-0-0 on 1920x1080
+*/
+static const char xtermgeometry[]      = "228x85-0-0";
 static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const Bool showbar           = False;    /* False means no bar */
@@ -51,9 +56,8 @@ static const Layout layouts[] = {
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "aterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-pr", "#999900", "-tr", "-tint", "#666666", "-tinttype", "true", "-si", "-vb", "-trsb", "+sb", "-sr", "-geometry", "182x72+0+0", "-sl", "0", "-tn", "xterm", "-C" , NULL };
-static const char *screencmd[]  = { "aterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-pr", "#999900", "+tr", "-tint", "#666666", "-tinttype", "true", "-si", "-vb", "+trsb", "+sb", "-sr", "-geometry", "183x73-0-0", "-sl", "0", "-tn", "xterm", "-C" , "-e", "screen", NULL };
 static const char *browsercmd[]  = { "opera", NULL };
-static const char *utermscreencmd[]  = { "uxterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-si", "-vb", "+sb", "-geometry", "183x73-0-0", "-sl", "0", "-tn", "xterm", "-C", "-fn", "-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso10646-1", "-e", "screen -U", NULL };
+static const char *utermscreencmd[]  = { "uxterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-si", "-vb", "+sb", "-geometry", xtermgeometry, "-sl", "0", "-tn", "xterm", "-C", "-fn", "-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso10646-1", "-e", "screen -U -DRxA", NULL };
 static const char *xtrlockcmd[]  = { "xtrlock", NULL };
 static const char *viewercmd[]  = { "evince", NULL };
 static const char *screenshotcmd[]  = { "shot", NULL };
@@ -66,7 +70,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_o,      spawn,          {.v = browsercmd } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_s,      spawn,          {.v = screenshotcmd } },
-	{ MODKEY,                       XK_w,      spawn,          {.v = screencmd } },
 	{ MODKEY,                       XK_x,      spawn,          {.v = xtrlockcmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_r,      spawn,          {.v = utermscreencmd } },
@@ -111,7 +114,6 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
