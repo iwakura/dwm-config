@@ -1,31 +1,32 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const char font[]            = "-*-*-medium-r-normal-*-14-*-*-*-*-*-*-*";
+static const char font[]            = "-misc-*-medium-r-normal-*-14-*-*-*-*-*-*-*";
 static const char normbordercolor[] = "#999999";
-static const char normbgcolor[]     = "#999999";
-static const char normfgcolor[]     = "#000000";
+static const char normbgcolor[]     = "#000066";
+static const char normfgcolor[]     = "#ffffff";
 static const char selbordercolor[]  = "#333333";
-static const char selbgcolor[]      = "#333333";
-static const char selfgcolor[]      = "#ffffff";
+static const char selbgcolor[]      = "#ccccff";
+static const char selfgcolor[]      = "#000066";
 /*
   228x85-0-0 on 1600x1200
-  183x73-0-0 on 1920x1080
+  274x77-0-0 on 1920x1080
+  183x73-0-0 on 1280x1024
 */
-static const char xtermgeometry[]      = "228x85-0-0";
+static const char xtermgeometry[]      = "274x77-0-0";
 static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const Bool showbar           = False;    /* False means no bar */
 static const Bool topbar            = True;     /* False means bottom bar */
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "ichi", "ni", "san", "yon", "go", "roku", "nana", "hachi", "kyuu" };
 
 static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            True,        -1 },
 	{ "Firefox",  NULL,       NULL,       1,            False,       -1 },
- 	{ "opera",    NULL,       NULL,       1,            False,       -1 },
+ 	{ "opera",    NULL,       NULL,       1,            True,        -1 },
  	{ "MPlayer",  NULL,       NULL,       1,            True,        -1 },
  	{ "aterm",    NULL,       NULL,       1,            False,       -1 },
  	{ "squeak",   NULL,       NULL,       0,            False,       -1 },
@@ -55,9 +56,8 @@ static const Layout layouts[] = {
 
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]  = { "aterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-pr", "#999900", "-tr", "-tint", "#666666", "-tinttype", "true", "-si", "-vb", "-trsb", "+sb", "-sr", "-geometry", "182x72+0+0", "-sl", "0", "-tn", "xterm", "-C" , NULL };
 static const char *browsercmd[]  = { "opera", NULL };
-static const char *utermscreencmd[]  = { "uxterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-si", "-vb", "+sb", "-geometry", xtermgeometry, "-sl", "0", "-tn", "xterm", "-C", "-fn", "-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso10646-1", "-e", "screen -U -DRxA", NULL };
+static const char *utermscreencmd[]  = { "uxterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-si", "-vb", "+sb", "-geometry", xtermgeometry, "-sl", "0", "-tn", "xterm", "-C", "-fn", "-misc-fixed-medium-r-normal-*-14-130-75-75-c-70-iso10646-1", "-e", "exec screen -UADR", NULL };
 static const char *xtrlockcmd[]  = { "xtrlock", NULL };
 static const char *viewercmd[]  = { "evince", NULL };
 static const char *screenshotcmd[]  = { "shot", NULL };
@@ -71,7 +71,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_s,      spawn,          {.v = screenshotcmd } },
 	{ MODKEY,                       XK_x,      spawn,          {.v = xtrlockcmd } },
-	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_r,      spawn,          {.v = utermscreencmd } },
 	{ MODKEY|ControlMask,           XK_f,      spawn,          {.v = shutdowncmd } },
 	{ MODKEY|ControlMask,           XK_r,      spawn,          {.v = rebootcmd } },
