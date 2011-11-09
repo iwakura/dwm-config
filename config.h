@@ -8,12 +8,6 @@ static const char normfgcolor[]     = "#ffffff";
 static const char selbordercolor[]  = "#333333";
 static const char selbgcolor[]      = "#ccccff";
 static const char selfgcolor[]      = "#000066";
-/*
-  228x85-0-0 on 1600x1200
-  274x77-0-0 on 1920x1080
-  183x73-0-0 on 1280x1024
-*/
-static const char xtermgeometry[]      = "274x77-0-0";
 static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const Bool showbar           = False;    /* False means no bar */
@@ -57,7 +51,7 @@ static const Layout layouts[] = {
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *browsercmd[]  = { "opera", NULL };
-static const char *utermscreencmd[]  = { "uxterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-si", "-vb", "+sb", "-geometry", xtermgeometry, "-sl", "0", "-tn", "xterm", "-C", "-fn", "-misc-fixed-medium-r-normal-*-14-130-75-75-c-70-iso10646-1", "-e", "exec screen -UADR", NULL };
+static const char *utermscreencmd[]  = { "uxterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-si", "-vb", "+sb", "-fullscreen", "-sl", "0", "-tn", "xterm", "-C", "-fn", "-misc-fixed-medium-r-normal-*-14-130-75-75-c-70-iso10646-1", "-e", "exec screen -UADR", NULL };
 static const char *xtrlockcmd[]  = { "xtrlock", NULL };
 static const char *viewercmd[]  = { "evince", NULL };
 static const char *screenshotcmd[]  = { "shot", NULL };
