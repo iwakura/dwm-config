@@ -54,6 +54,8 @@ static const Layout layouts[] = {
 static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *browsercmd[]  = { "opera", NULL };
 static const char *utermscreencmd[]  = { "uxterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-si", "-vb", "+sb", "-fullscreen", "-sl", "0", "-tn", "xterm", "-C", "-fn", "-misc-fixed-medium-r-normal-*-14-130-75-75-c-70-iso10646-1", "-e", "exec screen -UADR", NULL };
+static const char *utermtmuxcmd[]  = { "uxterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-si", "-vb", "+sb", "-fullscreen", "-sl", "0", "-tn", "xterm", "-C", "-fn", "-misc-fixed-medium-r-normal-*-14-130-75-75-c-70-iso10646-1", "-e", "exec tmux -2u new -s hajime", NULL };
+static const char *utermtmuxattachcmd[]  = { "uxterm", "-bg", "black", "-fg", "#009999", "-cr", "#999900", "-si", "-vb", "+sb", "-fullscreen", "-sl", "0", "-tn", "xterm", "-C", "-fn", "-misc-fixed-medium-r-normal-*-14-130-75-75-c-70-iso10646-1", "-e", "exec tmux -2u attach -t hajime", NULL };
 static const char *xtrlockcmd[]  = { "xtrlock", NULL };
 static const char *viewercmd[]  = { "evince", NULL };
 static const char *screenshotcmd[]  = { "shot", NULL };
@@ -68,6 +70,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_s,      spawn,          {.v = screenshotcmd } },
 	{ MODKEY,                       XK_x,      spawn,          {.v = xtrlockcmd } },
 	{ MODKEY,                       XK_r,      spawn,          {.v = utermscreencmd } },
+	{ MODKEY,                       XK_u,      spawn,          {.v = utermtmuxcmd } },
+	{ MODKEY,                       XK_a,      spawn,          {.v = utermtmuxattachcmd } },
 	{ MODKEY|ControlMask,           XK_f,      spawn,          {.v = shutdowncmd } },
 	{ MODKEY|ControlMask,           XK_r,      spawn,          {.v = rebootcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
