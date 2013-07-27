@@ -58,8 +58,13 @@ static const char *utermtmuxattachcmd[]  = { "uxterm", "-si", "-vb", "+sb", "-fu
 static const char *xtrlockcmd[]  = { "xtrlock", NULL };
 static const char *viewercmd[]  = { "evince", NULL };
 static const char *screenshotcmd[]  = { "shot", NULL };
+#ifdef __linux__
+static const char *shutdowncmd[]  = { "sudo", "poweroff", NULL };
+static const char *rebootcmd[]  = { "sudo", "reboot", NULL };
+#else
 static const char *shutdowncmd[]  = { "sudo", "shutdown", "-p", "now", NULL };
 static const char *rebootcmd[]  = { "sudo", "shutdown", "-r", "now", NULL };
+#endif
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
