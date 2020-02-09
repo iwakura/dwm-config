@@ -1,39 +1,38 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const char *fonts[] = {
-       "monospace:size=10"
-};
-static const char dmenufont[]       = "monospace:size=10";
-static const char font[]            = "-misc-*-medium-r-normal-*-14-*-*-*-*-*-*-*";
-static const char normbordercolor[] = "#999999";
-static const char normbgcolor[]     = "#000066";
-static const char normfgcolor[]     = "#ffffff";
-static const char selbordercolor[]  = "#333333";
-static const char selbgcolor[]      = "#ccccff";
-static const char selfgcolor[]      = "#000066";
 static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 0;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-
+static const char *fonts[]          = { "monospace:size=14" };
+static const char dmenufont[]       = "monospace:size=14";
+static const char col_gray1[]       = "#333333";
+static const char col_gray2[]       = "#999999";
+static const char col_gray3[]       = "#bbbbbb";
+static const char col_gray4[]       = "#eeeeee";
+static const char col_cyan[]        = "#005577";
+static const char *colors[][3]      = {
+	/*               fg         bg         border   */
+	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
+	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+};
 
 /* tagging */
 static const char *tags[] = { "ichi", "ni", "san", "yon", "go", "roku", "nana", "hachi", "kyuu" };
 
 static const Rule rules[] = {
-       /* xprop(1):
-        *      WM_CLASS(STRING) = instance, class
-        *      WM_NAME(STRING) = title
-        */
+	/* xprop(1):
+	 *	WM_CLASS(STRING) = instance, class
+	 *	WM_NAME(STRING) = title
+	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            True,        -1 },
-	{ "Firefox",  NULL,       NULL,       1,            False,       -1 },
- 	{ "opera",    NULL,       NULL,       1,            True,        -1 },
- 	{ "zathura",  NULL,       NULL,       1,            True,        -1 },
- 	{ "MPlayer",  NULL,       NULL,       1,            True,        -1 },
- 	{ "aterm",    NULL,       NULL,       1,            False,       -1 },
- 	{ "squeak",   NULL,       NULL,       0,            False,       -1 },
+	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+	{ "Firefox",  NULL,       NULL,       1,            0,           -1 },
+	{ "opera",    NULL,       NULL,       1,            1,           -1 },
+	{ "zathura",  NULL,       NULL,       1,            1,           -1 },
+	{ "MPlayer",  NULL,       NULL,       1,            1,           -1 },
+	{ "squeak",   NULL,       NULL,       0,            0,           -1 },
 };
 
 /* layout(s) */
@@ -61,12 +60,10 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *browsercmd[]  = { "opera", NULL };
-static const char *utermtmuxcmd[]  = { "uxterm", "-si", "-vb", "+sb", "-fullscreen", "-C", "-e", "tmux new-session -d -s hajime; tmux source ~/.tmux.conf.$HOST; exec tmux attach", NULL };
-static const char *utermtmuxattachcmd[]  = { "uxterm", "-si", "-vb", "+sb", "-fullscreen", "-C", "-e", "exec tmux -2u attach", NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *termtmuxcmd[]  = { "uxterm", "-si", "-vb", "+sb", "-fullscreen", "-C", "-e", "tmux new-session -d -s hajime; tmux source ~/.tmux.conf.$HOST; exec tmux attach", NULL };
+static const char *termtmuxattachcmd[]  = { "uxterm", "-si", "-vb", "+sb", "-fullscreen", "-C", "-e", "exec tmux -2u attach", NULL };
 static const char *xtrlockcmd[]  = { "xtrlock", NULL };
-static const char *viewercmd[]  = { "evince", NULL };
 static const char *screenshotcmd[]  = { "shot", NULL };
 #ifdef __linux__
 static const char *shutdowncmd[]  = { "sudo", "poweroff", NULL };
@@ -78,13 +75,11 @@ static const char *rebootcmd[]  = { "sudo", "shutdown", "-r", "now", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_e,      spawn,          {.v = viewercmd } },
-	{ MODKEY,                       XK_o,      spawn,          {.v = browsercmd } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_s,      spawn,          {.v = screenshotcmd } },
 	{ MODKEY,                       XK_x,      spawn,          {.v = xtrlockcmd } },
-	{ MODKEY,                       XK_u,      spawn,          {.v = utermtmuxcmd } },
-	{ MODKEY,                       XK_a,      spawn,          {.v = utermtmuxattachcmd } },
+	{ MODKEY,                       XK_u,      spawn,          {.v = termtmuxcmd } },
+	{ MODKEY,                       XK_a,      spawn,          {.v = termtmuxattachcmd } },
 	{ MODKEY|ControlMask,           XK_f,      spawn,          {.v = shutdowncmd } },
 	{ MODKEY|ControlMask,           XK_r,      spawn,          {.v = rebootcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
